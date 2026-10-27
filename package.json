@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Công cụ tham khảo kiểm tra cân nặng, chiều cao của trẻ theo chuẩn WHO",
   "scripts": {
+    "start": "node scripts/serve.mjs",
     "build-data": "node scripts/build-data.mjs",
     "test": "node --test"
   }

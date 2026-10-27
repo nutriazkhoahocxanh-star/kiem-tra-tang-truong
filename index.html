@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiểm tra tăng trưởng của bé theo chuẩn WHO | NutriAZ Việt Nam</title>
+<meta name="description" content="Công cụ miễn phí giúp mẹ kiểm tra cân nặng, chiều cao, BMI của bé 0–19 tuổi theo chuẩn tăng trưởng của Tổ chức Y tế Thế giới (WHO).">
+<meta name="theme-color" content="#5E4193">
+<link rel="icon" href="brand/logo-nutriaz.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+<header class="topbar">
+  <img src="brand/logo-nutriaz.png" alt="Logo NutriAZ" width="58" height="58">
+  <div class="brand">
+    <div class="name">NutriAZ Việt Nam</div>
+    <div class="slogan">Dinh dưỡng từ tâm – Trẻ vươn tầm</div>
+  </div>
+  <a class="home" href="https://www.nutriaz.edu.vn/" target="_top" aria-label="Về trang chủ NutriAZ">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+  </a>
+</header>
+
+<main class="wrap">
+  <section class="know">
+    <h3>Mẹ có biết?</h3>
+    <p>Cứ <strong>khoảng 1 trong 5 trẻ dưới 5 tuổi</strong> ở Việt Nam bị thấp còi. Giai đoạn ăn dặm là “cửa sổ vàng” để con bắt kịp đà tăng trưởng.</p>
+  </section>
+
+  <section class="hero">
+    <span class="badge">THEO CHUẨN WHO</span>
+    <h1>Kiểm tra <span>tăng trưởng</span><br>của bé</h1>
+    <p>Biết ngay con đang cao, nặng thế nào so với chuẩn – chỉ 30 giây</p>
+  </section>
+
+  <form id="form" novalidate>
+    <div class="toggle" role="radiogroup" aria-label="Giới tính">
+      <button type="button" role="radio" aria-checked="true" data-sex="1" class="on">👦 Bé trai</button>
+      <button type="button" role="radio" aria-checked="false" data-sex="2">👧 Bé gái</button>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Cách nhập tuổi">
+      <button type="button" role="tab" aria-selected="true" data-mode="date" class="on">Theo ngày sinh</button>
+      <button type="button" role="tab" aria-selected="false" data-mode="age">Theo tuổi</button>
+    </div>
+
+    <div class="row" id="mode-date">
+      <label class="field"><small>Ngày sinh của bé</small><input type="date" id="birth" required></label>
+      <label class="field"><small>Ngày đo</small><input type="date" id="measured" required></label>
+    </div>
+    <div class="row" id="mode-age" hidden>
+      <label class="field"><small>Số năm</small><input type="number" id="years" min="0" max="18" inputmode="numeric" placeholder="0"></label>
+      <label class="field"><small>Số tháng</small><input type="number" id="months" min="0" max="11" inputmode="numeric" placeholder="0"></label>
+    </div>
+
+    <div class="row">
+      <label class="field"><small>Chiều cao (cm)</small><input type="text" id="height" inputmode="decimal" placeholder="VD: 76,5" autocomplete="off"></label>
+      <label class="field"><small>Cân nặng (kg)</small><input type="text" id="weight" inputmode="decimal" placeholder="VD: 8,4" autocomplete="off"></label>
+    </div>
+
+    <div class="measure" id="measure-box">
+      <span>Bé được đo:</span>
+      <label><input type="radio" name="measure" value="lying" checked> Nằm</label>
+      <label><input type="radio" name="measure" value="standing"> Đứng</label>
+    </div>
+    <p class="hint">Bé dưới 2 tuổi nên đo nằm · Bé từ 2 tuổi đo đứng</p>
+
+    <p class="error" id="error" role="alert" hidden></p>
+    <button class="btn" type="submit">KIỂM TRA NGAY</button>
+  </form>
+
+  <section id="result" hidden aria-live="polite">
+    <div class="summary" id="summary"></div>
+    <div id="warnings"></div>
+    <div id="cards"></div>
+
+    <div class="chart">
+      <div class="tabs center" role="tablist" aria-label="Chọn biểu đồ" id="chart-tabs">
+        <button type="button" role="tab" data-key="wfa" class="on">Cân nặng</button>
+        <button type="button" role="tab" data-key="hfa">Chiều cao</button>
+        <button type="button" role="tab" data-key="bfa">BMI</button>
+      </div>
+      <svg id="chart" viewBox="0 0 340 250" width="100%" role="img"></svg>
+      <div class="legend"><span class="sw band"></span>Vùng bình thường (−2 đến +2) <span class="sw dot"></span>Bé</div>
+    </div>
+
+    <div class="funnel" id="funnel-result"></div>
+    <button class="btn ghost" type="button" id="again">↺ Kiểm tra lại</button>
+  </section>
+
+  <section class="disclaimer">
+    <b>Lưu ý quan trọng</b>
+    Công cụ chỉ mang tính tham khảo, dựa trên Chuẩn tăng trưởng của Tổ chức Y tế Thế giới (WHO). Kết quả <strong>không thay thế chẩn đoán và tư vấn của bác sĩ</strong>. Nếu bé có dấu hiệu bất thường, mẹ hãy đưa bé đến cơ sở y tế.
+    <span class="src">Nguồn: <a href="https://www.who.int/tools/child-growth-standards" target="_blank" rel="noopener">WHO Child Growth Standards</a> (0–5 tuổi) và <a href="https://www.who.int/tools/growth-reference-data-for-5to19-years" target="_blank" rel="noopener">WHO Growth Reference 2007</a> (5–19 tuổi).</span>
+  </section>
+
+  <section class="funnel" id="funnel-top">
+    <h2>Ăn dặm chuẩn khoa học<br>mẹ nhàn – bé hợp tác</h2>
+    <p>Khoá học ăn dặm toàn diện 3 Dễ cùng ThS. Dinh dưỡng Hải Trang</p>
+    <a class="btn gold" data-link="course" data-campaign="khoi-dau-trang" href="#">XEM KHOÁ HỌC ⮕</a>
+  </section>
+</main>
+
+<footer class="footer">
+  © NutriAZ Việt Nam · <a href="https://www.nutriaz.edu.vn/" target="_top">nutriaz.edu.vn</a>
+</footer>
+
+<script type="module" src="src/app.js"></script>
+</body>
+</html>

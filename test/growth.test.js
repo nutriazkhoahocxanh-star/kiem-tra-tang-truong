@@ -90,3 +90,8 @@ test("Báo lỗi khi nhập sai", () => {
   assert.throws(() => assess({ sex: 1, ageMonths: 240, weight: 60, height: 170 }), /19 tuổi/);
   assert.throws(() => assess({ sex: 1, ageMonths: 12, weight: 0, height: 75 }), /hợp lệ/);
 });
+
+test("Khoảng bình thường (−2 đến +2) khớp bảng WHO: bé trai 12 tháng 7,7–12,0 kg", () => {
+  const r = assess({ sex: 1, ageMonths: 12, weight: 9.6, height: 75.7 });
+  assert.deepEqual(r.indicators.wfa.range.map((v) => Math.round(v * 10) / 10), [7.7, 12.0]);
+});

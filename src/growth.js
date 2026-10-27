@@ -111,16 +111,16 @@ export function assess({ sex, ageDays, ageMonths, weight, height, lying }) {
     if (day >= 731 && isLying) h -= 0.7;
     const bmiForZ = computeBmi(weight, h);
     const get = (key) => lmsAt(group, key, sex, day);
-    indicators.wfa = { value: weight, z: zscoreAdjusted(weight, ...lms(get("wfa"))) };
-    indicators.hfa = { value: height, z: zscore(h, ...lms(get("hfa"))) };
-    indicators.bfa = { value: bmi, z: zscoreAdjusted(bmiForZ, ...lms(get("bfa"))) };
+    indicators.wfa = { value: weight, z: zscoreAdjusted(weight, ...lms(get("wfa"))), range: normalRange(get("wfa")) };
+    indicators.hfa = { value: height, z: zscore(h, ...lms(get("hfa"))), range: normalRange(get("hfa")) };
+    indicators.bfa = { value: bmi, z: zscoreAdjusted(bmiForZ, ...lms(get("bfa"))), range: normalRange(get("bfa")) };
   } else {
     const get = (key) => lmsAt(group, key, sex, ageMonths);
     if (ageMonths < WFA_MAX_MONTHS_OVER5) {
-      indicators.wfa = { value: weight, z: zscoreAdjusted(weight, ...lms(get("wfa"))) };
+      indicators.wfa = { value: weight, z: zscoreAdjusted(weight, ...lms(get("wfa"))), range: normalRange(get("wfa")) };
     }
-    indicators.hfa = { value: height, z: zscore(height, ...lms(get("hfa"))) };
-    indicators.bfa = { value: bmi, z: zscoreAdjusted(bmi, ...lms(get("bfa"))) };
+    indicators.hfa = { value: height, z: zscore(height, ...lms(get("hfa"))), range: normalRange(get("hfa")) };
+    indicators.bfa = { value: bmi, z: zscoreAdjusted(bmi, ...lms(get("bfa"))), range: normalRange(get("bfa")) };
   }
 
   const warnings = [];
@@ -128,7 +128,7 @@ export function assess({ sex, ageDays, ageMonths, weight, height, lying }) {
     ind.z = round2(ind.z);
     Object.assign(ind, classify(key, ind.z, group));
     if (FLAGS[key](ind.z)) {
-      warnings.push(`${INDICATORS[key]} có giá trị rất bất thường (Z = ${ind.z}). Vui lòng kiểm tra lại số liệu đã nhập.`);
+      warnings.push(`${INDICATORS[key]} có giá trị rất bất thường (Z = ${String(ind.z).replace(".", ",")}). Vui lòng kiểm tra lại số liệu đã nhập.`);
     }
   }
   if (group === "over5" && !indicators.wfa) {
@@ -144,6 +144,9 @@ export function assess({ sex, ageDays, ageMonths, weight, height, lying }) {
 }
 
 const lms = (p) => [p.l, p.m, p.s];
+
+// Khoảng bình thường theo WHO: từ −2 đến +2 độ lệch chuẩn.
+const normalRange = (p) => [valueAtZ(-2, p.l, p.m, p.s), valueAtZ(2, p.l, p.m, p.s)];
 
 // Phân loại theo ngưỡng Z-score của WHO.
 export function classify(key, z, group) {
