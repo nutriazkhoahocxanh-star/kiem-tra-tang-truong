@@ -1,0 +1,11 @@
+{
+  "name": "kiem-tra-tang-truong",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Công cụ tham khảo kiểm tra cân nặng, chiều cao của trẻ theo chuẩn WHO",
+  "scripts": {
+    "build-data": "node scripts/build-data.mjs",
+    "test": "node --test"
+  }
+}
