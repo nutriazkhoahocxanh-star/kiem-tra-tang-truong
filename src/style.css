@@ -21,6 +21,9 @@ a { color: var(--tim); }
 .home { width: 38px; height: 38px; border-radius: 10px; border: 1.5px solid var(--vang); display: grid; place-items: center; color: var(--vang); flex: none; }
 
 .wrap { max-width: 520px; margin: 0 auto; padding: 16px; background: #fff; min-height: 100vh; }
+/* Khi nhúng vào trang khác: chiều cao theo nội dung */
+.embedded .wrap { min-height: 0; }
+.embedded body { overflow: hidden; }
 @media (min-width: 560px) {
   .wrap { margin: 24px auto; border-radius: 24px; box-shadow: 0 12px 40px rgba(94, 65, 147, .12); min-height: 0; }
 }

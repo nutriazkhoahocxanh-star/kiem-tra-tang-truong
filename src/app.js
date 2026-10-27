@@ -316,7 +316,19 @@ for (const a of document.querySelectorAll("a[data-link=course]")) a.href = withU
 
 // Khi trang được nhúng (iframe) vào website khác, báo chiều cao để khung tự giãn.
 if (window.parent !== window) {
-  new ResizeObserver(() => {
-    window.parent.postMessage({ type: "nutriaz-growth-height", height: document.documentElement.scrollHeight }, "*");
-  }).observe(document.body);
+  document.documentElement.classList.add("embedded");
+  const report = () =>
+    window.parent.postMessage({ type: "nutriaz-growth-height", height: Math.ceil(document.body.getBoundingClientRect().height) }, "*");
+  let last = 0;
+  const reportIfChanged = () => {
+    const h = Math.ceil(document.body.getBoundingClientRect().height);
+    if (h !== last) {
+      last = h;
+      report();
+    }
+  };
+  new ResizeObserver(reportIfChanged).observe(document.body);
+  new MutationObserver(reportIfChanged).observe(document.body, { childList: true, subtree: true, attributes: true });
+  for (const ev of ["load", "resize"]) window.addEventListener(ev, reportIfChanged);
+  document.fonts?.ready.then(reportIfChanged);
 }

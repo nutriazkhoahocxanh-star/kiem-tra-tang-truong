@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thử nhúng (giả lập trang nutriaz.edu.vn)</title>
+<style>body{margin:0;font-family:sans-serif;background:#fff} header,footer{background:#7B6BD0;color:#fff;padding:16px;text-align:center}</style>
+</head><body>
+<header>Giả lập: thanh menu website nutriaz.edu.vn</header>
+<!-- Công cụ kiểm tra tăng trưởng NutriAZ – dán toàn bộ đoạn này vào phần tử "HTML / Mã nhúng" trên Pancake -->
+<iframe id="nutriaz-growth" src="/"
+  title="Kiểm tra tăng trưởng của bé theo chuẩn WHO" loading="eager"
+  style="display:block;width:100%;height:2800px;border:0;margin:0 auto;"></iframe>
+<script>
+  // Tự giãn khung theo nội dung bên trong
+  window.addEventListener("message", function (e) {
+    if (e.origin !== location.origin) return;
+    if (e.data && e.data.type === "nutriaz-growth-height") {
+      document.getElementById("nutriaz-growth").style.height = e.data.height + "px";
+    }
+  });
+</script>
+
+<footer>Giả lập: chân trang website nutriaz.edu.vn</footer>
+</body></html>
