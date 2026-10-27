@@ -11,6 +11,9 @@ const CONFIG = {
 };
 
 const $ = (id) => document.getElementById(id);
+// Khi nằm trong khung nhúng (Webcake chặn chuyển trang trong khung), mở link ở tab mới
+const EMBEDDED = window.parent !== window;
+const LINK_TARGET = EMBEDDED ? "_blank" : "_top";
 const state = { sex: 1, mode: "date", measureTouched: false, result: null, chartKey: "wfa" };
 
 const fmt = (n, d = 1) => n.toLocaleString("vi-VN", { minimumFractionDigits: d, maximumFractionDigits: d });
@@ -285,15 +288,15 @@ function renderFunnel(r, status) {
         <li>50+ video, có đội ngũ chuyên môn đồng hành</li>
       </ul>
       <div class="price">${CONFIG.coursePrice}</div>
-      <a class="btn gold" href="${course}" target="_top">ĐĂNG KÝ KHOÁ HỌC ⮕</a>
-      <a class="link" href="${contact}" target="_top">Nhận tư vấn miễn phí</a>`;
+      <a class="btn gold" href="${course}" target="${LINK_TARGET}" rel="noopener">ĐĂNG KÝ KHOÁ HỌC ⮕</a>
+      <a class="link" href="${contact}" target="${LINK_TARGET}" rel="noopener">Nhận tư vấn miễn phí</a>`;
   } else {
     html = `
       <span class="badge">GỢI Ý CHO MẸ</span>
       <h2>${status === "normal" ? "Đồng hành cùng con trên hành trình vươn tầm" : "Bé cần một lộ trình dinh dưỡng phù hợp"}</h2>
       <p>Để lại thông tin, chuyên gia dinh dưỡng NutriAZ sẽ tư vấn chế độ ăn phù hợp với tình trạng của bé.</p>
-      <a class="btn gold" href="${contact}" target="_top">NHẬN TƯ VẤN MIỄN PHÍ ⮕</a>
-      <a class="link" href="${course}" target="_top">Xem ${CONFIG.courseName} (cho bé 4–12 tháng)</a>`;
+      <a class="btn gold" href="${contact}" target="${LINK_TARGET}" rel="noopener">NHẬN TƯ VẤN MIỄN PHÍ ⮕</a>
+      <a class="link" href="${course}" target="${LINK_TARGET}" rel="noopener">Xem ${CONFIG.courseName} (cho bé 4–12 tháng)</a>`;
   }
   $("funnel-result").innerHTML = html;
 }
@@ -313,9 +316,10 @@ for (const input of document.querySelectorAll("input.date")) {
   });
 }
 for (const a of document.querySelectorAll("a[data-link=course]")) a.href = withUtm(CONFIG.courseUrl, a.dataset.campaign);
+for (const a of document.querySelectorAll('a[target="_top"]')) a.target = LINK_TARGET;
 
 // Khi trang được nhúng (iframe) vào website khác, báo chiều cao để khung tự giãn.
-if (window.parent !== window) {
+if (EMBEDDED) {
   document.documentElement.classList.add("embedded");
   const report = () =>
     window.parent.postMessage({ type: "nutriaz-growth-height", height: Math.ceil(document.body.getBoundingClientRect().height) }, "*");
