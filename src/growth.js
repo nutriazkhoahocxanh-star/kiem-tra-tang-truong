@@ -148,19 +148,24 @@ const lms = (p) => [p.l, p.m, p.s];
 // Khoảng bình thường theo WHO: từ −2 đến +2 độ lệch chuẩn.
 const normalRange = (p) => [valueAtZ(-2, p.l, p.m, p.s), valueAtZ(2, p.l, p.m, p.s)];
 
-// Phân loại theo ngưỡng Z-score của WHO.
+const BFA_LOW_NOTE = "Cân nặng so với chiều cao nằm trong ngưỡng tiêu chuẩn, tuy nhiên bé hơi gầy (cận dưới). Mẹ nên chú ý bữa ăn đủ năng lượng để bé tăng cân đều.";
+
+// Phân loại theo ngưỡng Z-score của WHO. Riêng mức "cận dưới" (−2 ≤ Z < −1) là mức theo dõi,
+// vẫn trong ngưỡng chuẩn nhưng nên ưu tiên cải thiện.
 export function classify(key, z, group) {
   const r = (label, level, note = "") => ({ label, level, note });
   if (key === "wfa") {
     if (z < -3) return r("Suy dinh dưỡng nhẹ cân nặng", "danger", "Cân nặng thấp hơn nhiều so với trẻ cùng tuổi.");
     if (z < -2) return r("Suy dinh dưỡng nhẹ cân", "warn", "Cân nặng thấp so với trẻ cùng tuổi.");
     if (z > 2) return r("Cân nặng cao so với tuổi", "warn", "Nên xem thêm chỉ số BMI theo tuổi để đánh giá thừa cân.");
+    if (z < -1) return r("Bình thường – cận dưới", "watch", "Cân nặng nằm trong ngưỡng tiêu chuẩn, tuy nhiên đang ở cận dưới. Mẹ nên ưu tiên cải thiện cân nặng cho bé: bữa ăn đủ năng lượng và chất đạm, theo dõi cân nặng hằng tháng.");
     return r("Bình thường", "ok", "Cân nặng nằm trong khoảng bình thường của trẻ cùng tuổi.");
   }
   if (key === "hfa") {
     if (z < -3) return r("Thấp còi nặng", "danger", "Chiều cao thấp hơn nhiều so với trẻ cùng tuổi.");
     if (z < -2) return r("Thấp còi", "warn", "Chiều cao thấp so với trẻ cùng tuổi (suy dinh dưỡng thể thấp còi).");
     if (z > 3) return r("Rất cao so với tuổi", "info", "Thường không đáng lo; nếu cha mẹ không cao, nên hỏi ý kiến bác sĩ.");
+    if (z < -1) return r("Bình thường – cận dưới", "watch", "Chiều cao nằm trong ngưỡng tiêu chuẩn, tuy nhiên đang ở cận dưới. Mẹ cần ưu tiên cải thiện chiều cao cho bé: đủ chất đạm, canxi, vitamin D, ngủ đủ giấc và vận động hằng ngày.");
     return r("Bình thường", "ok", "Chiều cao nằm trong khoảng bình thường của trẻ cùng tuổi.");
   }
   // BMI theo tuổi
@@ -170,12 +175,14 @@ export function classify(key, z, group) {
     if (z > 3) return r("Béo phì", "danger", "Cân nặng quá cao so với chiều cao.");
     if (z > 2) return r("Thừa cân", "warn", "Cân nặng cao so với chiều cao.");
     if (z > 1) return r("Có nguy cơ thừa cân", "info", "Cân nặng hơi cao so với chiều cao; nên theo dõi thêm.");
+    if (z < -1) return r("Bình thường – cận dưới", "watch", BFA_LOW_NOTE);
     return r("Bình thường", "ok", "Cân đối giữa cân nặng và chiều cao.");
   }
   if (z < -3) return r("Gầy nặng", "danger", "Trẻ rất gầy so với tuổi (suy dinh dưỡng thể gầy còm nặng).");
   if (z < -2) return r("Gầy", "warn", "Trẻ gầy so với tuổi (suy dinh dưỡng thể gầy còm).");
   if (z > 2) return r("Béo phì", "danger", "BMI quá cao so với trẻ cùng tuổi.");
   if (z > 1) return r("Thừa cân", "warn", "BMI cao so với trẻ cùng tuổi.");
+  if (z < -1) return r("Bình thường – cận dưới", "watch", BFA_LOW_NOTE);
   return r("Bình thường", "ok", "Cân đối giữa cân nặng và chiều cao.");
 }
 

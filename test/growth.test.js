@@ -95,3 +95,13 @@ test("Khoảng bình thường (−2 đến +2) khớp bảng WHO: bé trai 12 t
   const r = assess({ sex: 1, ageMonths: 12, weight: 9.6, height: 75.7 });
   assert.deepEqual(r.indicators.wfa.range.map((v) => Math.round(v * 10) / 10), [7.7, 12.0]);
 });
+
+test("Z-score từ −2 đến −1: bình thường nhưng ở cận dưới", () => {
+  // bé trai 12 tháng, 73 cm (Z ≈ −1,1), 9,6 kg
+  const r = assess({ sex: 1, ageMonths: 12, weight: 9.6, height: 73 });
+  assert.ok(r.indicators.hfa.z < -1 && r.indicators.hfa.z >= -2);
+  assert.equal(r.indicators.hfa.label, "Bình thường – cận dưới");
+  assert.equal(r.indicators.hfa.level, "watch");
+  assert.match(r.indicators.hfa.note, /ưu tiên cải thiện chiều cao/);
+  assert.equal(r.indicators.wfa.label, "Bình thường");
+});

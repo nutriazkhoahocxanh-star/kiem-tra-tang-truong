@@ -3,7 +3,7 @@
   --tim: #5E4193; --tim-dam: #45306E; --tim-nhat: #EFEAF7; --vien: #E2DCEC;
   --vang: #DCBB88; --vang-kem: #FAEABB; --vang-dam: #B8935A;
   --chu: #2B2140; --xam: #6B6480; --nen: #F4F1F9;
-  --ok: #2E9E6A; --warn: #E08A1E; --danger: #D64545; --info: #4A7BD0;
+  --ok: #2E9E6A; --watch: #C99A1E; --warn: #E08A1E; --danger: #D64545; --info: #4A7BD0;
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -54,6 +54,7 @@ a { color: var(--tim); }
 .field small { display: block; color: var(--xam); font-size: 12px; }
 .field input { width: 100%; border: 0; outline: 0; padding: 2px 0; font-weight: 800; font-size: 16px; background: none; }
 .field.invalid { border-color: var(--danger); }
+.field input::placeholder { color: #B9B2C8; font-weight: 600; }
 
 .measure { display: flex; gap: 14px; align-items: center; justify-content: center; font-size: 14px; }
 .measure[hidden] { display: none; }
@@ -84,10 +85,10 @@ a { color: var(--tim); }
 .card h3 { margin: 0; font-size: 16px; }
 .card p { margin: 6px 0 0; font-size: 13px; color: var(--xam); }
 .pill { font-size: 12px; font-weight: 800; padding: 3px 10px; border-radius: 999px; color: #fff; text-align: right; }
-.pill.ok { background: var(--ok); } .pill.warn { background: var(--warn); } .pill.danger { background: var(--danger); } .pill.info { background: var(--info); }
+.pill.ok { background: var(--ok); } .pill.warn { background: var(--warn); } .pill.danger { background: var(--danger); } .pill.info { background: var(--info); } .pill.watch { background: var(--watch); }
 /* Thang Z-score từ −4 đến +4 */
 .bar { position: relative; height: 10px; border-radius: 999px; margin: 14px 0 4px;
-  background: linear-gradient(90deg, var(--danger) 0 12.5%, var(--warn) 12.5% 25%, var(--ok) 25% 75%, var(--warn) 75% 87.5%, var(--danger) 87.5%); }
+  background: linear-gradient(90deg, var(--danger) 0 12.5%, var(--warn) 12.5% 25%, #F2DC8C 25% 37.5%, var(--ok) 37.5% 75%, var(--warn) 75% 87.5%, var(--danger) 87.5%); }
 .bar i { position: absolute; top: -5px; width: 4px; height: 20px; margin-left: -2px; background: var(--chu); border-radius: 2px; box-shadow: 0 0 0 2px #fff; }
 .scale { position: relative; height: 14px; font-size: 10px; color: var(--xam); }
 .scale span { position: absolute; transform: translateX(-50%); }

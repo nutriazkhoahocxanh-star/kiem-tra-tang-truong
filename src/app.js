@@ -18,10 +18,21 @@ const fmtZ = (z) => {
   const r = Math.round(z * 10) / 10;
   return (r > 0 ? "+" : r < 0 ? "−" : "") + fmt(Math.abs(r), 1);
 };
+const pad = (n) => String(n).padStart(2, "0");
 const todayStr = () => {
   const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 };
+// "12/03/2025" → "2025-03-12"; trả về null nếu chưa đủ, "" nếu ngày không tồn tại.
+function parseVnDate(text) {
+  const m = text.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (!m) return null;
+  const [d, mo, y] = m.slice(1).map(Number);
+  const dt = new Date(y, mo - 1, d);
+  if (dt.getFullYear() !== y || dt.getMonth() !== mo - 1 || dt.getDate() !== d) return "";
+  return `${y}-${pad(mo)}-${pad(d)}`;
+}
+const toVnDate = (iso) => iso.split("-").reverse().join("/");
 const parseNum = (s) => Number(String(s).trim().replace(",", "."));
 
 function withUtm(url, campaign) {
@@ -61,7 +72,7 @@ document.querySelector(".tabs[aria-label='Cách nhập tuổi']").addEventListen
 // Đọc tuổi từ biểu mẫu. Trả về { ageDays } hoặc { ageMonths } kèm chữ mô tả tuổi.
 function readAge() {
   if (state.mode === "date") {
-    const birth = $("birth").value, measured = $("measured").value;
+    const birth = parseVnDate($("birth").value), measured = parseVnDate($("measured").value);
     if (!birth || !measured) return null;
     const days = ageInDays(birth, measured);
     return { ageDays: days, months: days / 30.4375, text: describeAge(birth, measured) };
@@ -109,11 +120,16 @@ function showError(msg, fieldIds = []) {
 
 $("form").addEventListener("submit", (e) => {
   e.preventDefault();
-  const age = readAge();
-  if (!age) {
-    return showError("Vui lòng nhập ngày sinh của bé (hoặc tuổi của bé).", state.mode === "date" ? ["birth"] : ["years", "months"]);
+  if (state.mode === "date") {
+    for (const [id, name] of [["birth", "Ngày sinh"], ["measured", "Ngày đo"]]) {
+      const v = parseVnDate($(id).value);
+      if (v === null) return showError(`${name} cần nhập theo dạng ngày/tháng/năm, ví dụ 12/03/2025.`, [id]);
+      if (v === "") return showError(`${name} không tồn tại, mẹ kiểm tra lại giúp nhé.`, [id]);
+    }
+    if (parseVnDate($("measured").value) > todayStr()) return showError("Ngày đo không được sau hôm nay.", ["measured"]);
   }
-  if (state.mode === "date" && $("measured").value > todayStr()) return showError("Ngày đo không được sau hôm nay.", ["measured"]);
+  const age = readAge();
+  if (!age) return showError("Vui lòng nhập tuổi của bé.", ["years", "months"]);
   if (age.months < 0) return showError("Ngày sinh phải trước ngày đo.", ["birth"]);
   if (state.mode === "age" && Number($("months").value) > 11) return showError("Số tháng chỉ từ 0 đến 11.", ["months"]);
   const height = parseNum($("height").value), weight = parseNum($("weight").value);
@@ -154,11 +170,18 @@ function summarize(r) {
   const high = ind.bfa.z > 1 || ind.wfa.z > 2;
   const severe = Object.values(ind).some((i) => i.level === "danger");
   const watch = ind.bfa.level === "info" && issues.length === 1; // chỉ "có nguy cơ thừa cân"
+  // Trong ngưỡng chuẩn nhưng ở cận dưới (−2 ≤ Z < −1)
+  const edges = [ind.wfa.level === "watch" && "cân nặng", ind.hfa.level === "watch" && "chiều cao"].filter(Boolean);
+  const thin = ind.bfa.level === "watch";
 
   let title, text;
   if (r.warnings.length) {
     title = "Mẹ kiểm tra lại số liệu giúp nhé";
     text = "Một số chỉ số lệch quá xa so với chuẩn, thường do nhập nhầm chiều cao, cân nặng hoặc ngày sinh. Nếu số liệu đúng, mẹ nên đưa bé đi khám bác sĩ.";
+  } else if (!issues.length && (edges.length || thin)) {
+    title = edges.length ? `Bé trong ngưỡng chuẩn, nhưng ${edges.join(" và ")} đang ở cận dưới` : "Bé trong ngưỡng chuẩn, nhưng hơi gầy";
+    text = `Các chỉ số vẫn nằm trong ngưỡng tiêu chuẩn của WHO. Tuy nhiên mẹ nên ưu tiên cải thiện ${edges.join(" và ") || "cân nặng"} cho bé ngay từ bây giờ để con bắt kịp đà tăng trưởng.`;
+    return { title, text, status: "edge" };
   } else if (!issues.length) {
     title = "Bé đang phát triển bình thường 🎉";
     text = "Cân nặng và chiều cao của bé nằm trong khoảng chuẩn của WHO. Mẹ tiếp tục duy trì chế độ ăn và theo dõi định kỳ nhé!";
@@ -196,7 +219,7 @@ function renderResult(r, ageText) {
       return `<div class="card"><div class="head"><h3>${INDICATORS[key]}</h3><span class="pill info">${ind.label}</span></div><p>${ind.note}</p></div>`;
     }
     const pos = Math.min(Math.max((ind.z + 4) / 8, 0.01), 0.99) * 100;
-    const range = `Bình thường: ${fmt(ind.range[0])} – ${fmt(ind.range[1])}${units[key] ? " " + units[key] : ""}`;
+    const range = `Ngưỡng chuẩn WHO: ${fmt(ind.range[0])} – ${fmt(ind.range[1])}${units[key] ? " " + units[key] : ""}`;
     return `<div class="card">
       <div class="head"><h3>${INDICATORS[key]}</h3><span class="pill ${ind.level}">${ind.label}</span></div>
       <div class="bar"><i style="left:${pos}%"></i></div>
@@ -206,6 +229,10 @@ function renderResult(r, ageText) {
   }).join("");
 
   // Biểu đồ: trên 10 tuổi không có cân nặng theo tuổi
+  // Mở sẵn biểu đồ của chỉ số đáng chú ý nhất
+  const rank = { danger: 3, warn: 2, watch: 1 };
+  const worst = Object.entries(r.indicators).filter(([, i]) => rank[i.level]).sort((x, y) => rank[y[1].level] - rank[x[1].level])[0];
+  if (worst) state.chartKey = worst[0];
   const wfaTab = document.querySelector("#chart-tabs [data-key=wfa]");
   wfaTab.disabled = r.indicators.wfa.z === null;
   if (wfaTab.disabled && state.chartKey === "wfa") state.chartKey = "bfa";
@@ -233,7 +260,7 @@ $("chart-tabs").addEventListener("click", (e) => {
 
 // ----- Phễu: lời mời thay đổi theo tuổi và kết quả -----
 function renderFunnel(r, status) {
-  const campaign = `ket-qua-${status === "low" ? "cham-tang-truong" : status === "high" ? "thua-can" : "binh-thuong"}`;
+  const campaign = `ket-qua-${{ low: "cham-tang-truong", high: "thua-can", edge: "can-duoi" }[status] || "binh-thuong"}`;
   const course = withUtm(CONFIG.courseUrl, campaign);
   const contact = withUtm(CONFIG.contactUrl, campaign);
   let html;
@@ -243,6 +270,8 @@ function renderFunnel(r, status) {
       ? "Chuẩn bị ăn dặm đúng ngay từ bây giờ"
       : status === "low"
         ? "Bé chậm tăng trưởng thường bắt nguồn từ ăn dặm chưa đúng cách"
+        : status === "edge"
+          ? "Giúp bé bứt khỏi vùng cận dưới với ăn dặm đúng cách"
         : status === "high"
           ? "Ăn dặm đúng cách giúp bé tăng trưởng cân đối"
           : "Giữ đà tăng trưởng tốt với ăn dặm khoa học";
@@ -270,9 +299,19 @@ function renderFunnel(r, status) {
 }
 
 // ----- Khởi tạo -----
-$("measured").value = todayStr();
-$("measured").max = todayStr();
-$("birth").max = todayStr();
+$("measured").value = toVnDate(todayStr());
+// Gõ số liền nhau, tự chèn dấu "/" thành ngày/tháng/năm
+for (const input of document.querySelectorAll("input.date")) {
+  input.addEventListener("input", (e) => {
+    if (e.inputType && e.inputType.startsWith("delete")) return;
+    const digits = input.value.replace(/\D/g, "").slice(0, 8);
+    let out = digits.slice(0, 2);
+    if (digits.length > 2) out += "/" + digits.slice(2, 4);
+    if (digits.length > 4) out += "/" + digits.slice(4);
+    if (digits.length === 2 || digits.length === 4) out += "/";
+    input.value = out;
+  });
+}
 for (const a of document.querySelectorAll("a[data-link=course]")) a.href = withUtm(CONFIG.courseUrl, a.dataset.campaign);
 
 // Khi trang được nhúng (iframe) vào website khác, báo chiều cao để khung tự giãn.

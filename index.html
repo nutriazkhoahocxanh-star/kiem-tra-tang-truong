@@ -48,8 +48,8 @@
     </div>
 
     <div class="row" id="mode-date">
-      <label class="field"><small>Ngày sinh của bé</small><input type="date" id="birth" required></label>
-      <label class="field"><small>Ngày đo</small><input type="date" id="measured" required></label>
+      <label class="field"><small>Ngày sinh của bé</small><input type="text" id="birth" class="date" inputmode="numeric" maxlength="10" placeholder="ngày/tháng/năm" autocomplete="off"></label>
+      <label class="field"><small>Ngày đo</small><input type="text" id="measured" class="date" inputmode="numeric" maxlength="10" placeholder="ngày/tháng/năm" autocomplete="off"></label>
     </div>
     <div class="row" id="mode-age" hidden>
       <label class="field"><small>Số năm</small><input type="number" id="years" min="0" max="18" inputmode="numeric" placeholder="0"></label>
