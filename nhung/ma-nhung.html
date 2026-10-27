@@ -7,7 +7,17 @@
   window.addEventListener("message", function (e) {
     if (e.origin !== "https://nutriazkhoahocxanh-star.github.io") return;
     if (e.data && e.data.type === "nutriaz-growth-height") {
-      document.getElementById("nutriaz-growth").style.height = e.data.height + "px";
+      var h = e.data.height + "px";
+      document.getElementById("nutriaz-growth").style.height = h;
+      // Webcake bọc mã nhúng trong thêm một khung cố định chiều cao: co khung đó theo luôn
+      try {
+        var outer = window.frameElement;
+        if (outer) {
+          outer.style.height = h;
+          var box = outer.closest(".x-element");
+          if (box) box.style.height = "auto";
+        }
+      } catch (err) {}
     }
   });
 </script>

@@ -2,7 +2,12 @@
 
 Công cụ đang chạy tại: https://nutriazkhoahocxanh-star.github.io/kiem-tra-tang-truong/
 
-Website nutriaz.edu.vn làm trên **Pancake**. Cách làm: tạo một trang mới trên Pancake có đường dẫn
+> **Trạng thái (27/10/2026):** đã gắn xong và xuất bản tại https://www.nutriaz.edu.vn/kiem-tra-tang-truong
+> – Webcake → website NUTRIAZ → Thiết kế → trang "Kiểm tra tăng trưởng" → khối `EMBED-az4iy5ln` (loại **Embed code**).
+> – Khối rộng 100%, cao 2800px (máy tính) / 3000px (điện thoại, cỡ 576 và 320), lề trên 0 ở cả 7 cỡ màn hình.
+> – Webcake bọc mã nhúng trong một khung cao cố định; đoạn mã tự co khung đó theo nội dung.
+
+Website nutriaz.edu.vn làm trên **Pancake (Webcake)**. Cách làm: tạo một trang mới trên Pancake có đường dẫn
 `kiem-tra-tang-truong`, rồi nhúng công cụ vào trang đó.
 
 ## Bước 1 – Tạo trang mới trên Pancake
