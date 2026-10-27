@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phác thảo – Kiểm tra tăng trưởng NutriAZ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Mulish:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --tim: #5E4193; --tim-dam: #45306E; --tim-nhat: #EFEAF7;
+    --vang: #DCBB88; --vang-kem: #FAEABB; --vang-dam: #B8935A;
+    --chu: #2B2140; --xam: #6B6480;
+    --ok: #2E9E6A; --warn: #E08A1E; --danger: #D64545; --info: #4A7BD0;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Mulish, sans-serif; color: var(--chu); background: #F4F1F9; }
+  h1, h2, h3, .baloo { font-family: "Baloo 2", sans-serif; }
+  .note { max-width: 860px; margin: 24px auto 0; padding: 0 16px; color: var(--xam); font-size: 14px; }
+  .note b { color: var(--tim); }
+  .screens { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; padding: 16px; }
+  .screen-label { text-align: center; font-family: "Baloo 2"; font-weight: 700; color: var(--tim); margin-bottom: 8px; }
+  .phone { width: 375px; max-width: 100%; background: #fff; border-radius: 28px; overflow: hidden; box-shadow: 0 12px 40px rgba(94,65,147,.18); }
+
+  /* Thanh đầu trang giống nutriaz.edu.vn */
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid #eee; }
+  .menu { width: 34px; height: 34px; border-radius: 8px; background: var(--tim); }
+  .topbar img { height: 52px; }
+
+  .wrap { padding: 16px; }
+  .know { background: var(--tim-nhat); border-radius: 16px; padding: 14px 16px; font-size: 14px; line-height: 1.55; text-align: center; }
+  .know h3 { margin: 0 0 4px; color: var(--tim); font-size: 17px; }
+  .know strong { color: var(--danger); }
+
+  .hero { text-align: center; padding: 20px 0 8px; }
+  .badge { display: inline-block; background: var(--tim); color: var(--vang-kem); border-radius: 999px; padding: 4px 14px; font-size: 12px; font-weight: 700; letter-spacing: .5px; }
+  .hero h1 { margin: 10px 0 0; font-size: 30px; line-height: 1.1; color: var(--tim); }
+  .hero h1 span { background: linear-gradient(90deg, var(--vang-dam), var(--vang)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p { margin: 6px 0 0; color: var(--xam); font-size: 14px; }
+
+  .toggle { display: flex; background: var(--tim-nhat); border-radius: 999px; padding: 5px; margin: 18px 0 14px; }
+  .toggle div { flex: 1; text-align: center; padding: 10px; border-radius: 999px; font-weight: 700; color: var(--tim); }
+  .toggle .on { background: var(--tim); color: #fff; box-shadow: 0 4px 10px rgba(94,65,147,.3); }
+
+  .tabs { display: flex; gap: 6px; font-size: 13px; margin-bottom: 8px; }
+  .tabs span { padding: 6px 10px; border-radius: 999px; border: 1px solid #ddd; color: var(--xam); }
+  .tabs .on { border-color: var(--tim); color: var(--tim); font-weight: 700; background: #fff; }
+  .field { border: 1.5px solid #E2DCEC; border-radius: 14px; padding: 10px 14px; margin-bottom: 10px; }
+  .field small { display: block; color: var(--xam); font-size: 12px; }
+  .field div { font-weight: 700; font-size: 16px; }
+  .row { display: flex; gap: 10px; }
+  .row .field { flex: 1; }
+  .hint { font-size: 12px; color: var(--xam); text-align: center; margin: 0 0 14px; }
+  .btn { display: block; text-align: center; background: linear-gradient(135deg, var(--tim), var(--tim-dam)); color: #fff; border-radius: 999px; padding: 14px; font-family: "Baloo 2"; font-weight: 800; font-size: 18px; text-decoration: none; box-shadow: 0 6px 16px rgba(94,65,147,.35); }
+  .btn.gold { background: linear-gradient(135deg, var(--vang), var(--vang-dam)); color: var(--tim-dam); }
+  .disclaimer { margin-top: 18px; border: 1px solid #eee; border-radius: 14px; padding: 12px 14px; font-size: 12px; color: var(--xam); text-align: center; line-height: 1.5; }
+  .disclaimer b { display: block; color: var(--chu); font-size: 13px; margin-bottom: 4px; }
+
+  .funnel { margin: 18px -16px -16px; background: var(--tim); color: #fff; padding: 22px 18px; border-radius: 28px 28px 0 0; }
+  .funnel h2 { margin: 0; font-size: 22px; line-height: 1.15; color: var(--vang-kem); }
+  .funnel p { font-size: 14px; opacity: .92; margin: 8px 0 14px; }
+  .funnel ul { padding-left: 18px; margin: 0 0 16px; font-size: 14px; }
+  .price { font-family: "Baloo 2"; font-weight: 800; font-size: 20px; color: var(--vang); }
+
+  /* Màn kết quả */
+  .summary { background: linear-gradient(135deg, var(--tim), var(--tim-dam)); color: #fff; border-radius: 20px; padding: 16px; }
+  .summary small { opacity: .85; }
+  .summary h2 { margin: 2px 0 6px; font-size: 22px; color: var(--vang-kem); }
+  .summary .stats { display: flex; gap: 8px; margin-top: 10px; }
+  .summary .stats div { flex: 1; background: rgba(255,255,255,.12); border-radius: 12px; padding: 8px; text-align: center; font-size: 12px; }
+  .summary .stats b { display: block; font-size: 18px; font-family: "Baloo 2"; }
+  .card { border: 1px solid #EEE9F5; border-radius: 16px; padding: 12px 14px; margin-top: 10px; }
+  .card .head { display: flex; justify-content: space-between; align-items: center; }
+  .card h3 { margin: 0; font-size: 16px; }
+  .pill { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; color: #fff; }
+  .ok { background: var(--ok); } .warn { background: var(--warn); } .danger { background: var(--danger); }
+  .bar { position: relative; height: 10px; border-radius: 999px; margin: 12px 0 4px;
+    background: linear-gradient(90deg, var(--danger) 0 12.5%, var(--warn) 12.5% 25%, var(--ok) 25% 75%, var(--warn) 75% 87.5%, var(--danger) 87.5%); }
+  .bar i { position: absolute; top: -5px; width: 4px; height: 20px; background: var(--chu); border-radius: 2px; }
+  .scale { position: relative; height: 14px; font-size: 10px; color: var(--xam); }
+  .scale span { position: absolute; transform: translateX(-50%); }
+  .card p { margin: 6px 0 0; font-size: 13px; color: var(--xam); }
+  .chart { margin-top: 12px; border: 1px solid #EEE9F5; border-radius: 16px; padding: 10px; }
+  .chart .tabs { justify-content: center; }
+</style>
+</head>
+<body>
+<p class="note"><b>Bản phác thảo bố cục</b> (chưa hoạt động, số liệu minh họa). Trái: màn nhập thông tin – theo bố cục trang mẫu. Phải: màn kết quả + phễu dẫn sang “Khoá học ăn dặm toàn diện 3 Dễ”. Màu và font lấy theo logo NutriAZ và website nutriaz.edu.vn.</p>
+<div class="screens">
+
+  <!-- MÀN 1: NHẬP THÔNG TIN -->
+  <div>
+    <div class="screen-label">① Nhập thông tin</div>
+    <div class="phone">
+      <div class="topbar"><div class="menu"></div><img src="../brand/logo-nutriaz.png" alt="NutriAZ"><div style="width:34px"></div></div>
+      <div class="wrap">
+        <div class="know">
+          <h3>Mẹ có biết?</h3>
+          Cứ <strong>khoảng 1 trong 5 trẻ dưới 5 tuổi</strong> ở Việt Nam bị thấp còi. Giai đoạn ăn dặm là “cửa sổ vàng” để con bắt kịp đà tăng trưởng.
+        </div>
+        <div class="hero">
+          <span class="badge">THEO CHUẨN WHO</span>
+          <h1>Kiểm tra <span>tăng trưởng</span><br>của bé</h1>
+          <p>Biết ngay con đang cao, nặng thế nào so với chuẩn – chỉ 30 giây</p>
+        </div>
+        <div class="toggle"><div class="on">👦 Bé trai</div><div>👧 Bé gái</div></div>
+        <div class="tabs"><span class="on">Theo ngày sinh</span><span>Theo tháng tuổi</span></div>
+        <div class="row">
+          <div class="field"><small>Ngày sinh của bé</small><div>12/03/2025</div></div>
+          <div class="field"><small>Ngày đo</small><div>27/10/2026</div></div>
+        </div>
+        <div class="row">
+          <div class="field"><small>Chiều cao (cm)</small><div>76,5</div></div>
+          <div class="field"><small>Cân nặng (kg)</small><div>8,4</div></div>
+        </div>
+        <p class="hint">Bé dưới 2 tuổi nên đo nằm · Bé từ 2 tuổi đo đứng</p>
+        <a class="btn" href="#">KIỂM TRA NGAY</a>
+        <div class="disclaimer">
+          <b>Lưu ý quan trọng</b>
+          Công cụ chỉ mang tính tham khảo, dựa trên Chuẩn tăng trưởng của Tổ chức Y tế Thế giới (WHO). Kết quả không thay thế chẩn đoán và tư vấn của bác sĩ.
+        </div>
+        <div class="funnel">
+          <h2>Ăn dặm chuẩn khoa học<br>mẹ nhàn – bé hợp tác</h2>
+          <p>Khoá học ăn dặm toàn diện 3 Dễ cùng ThS. Dinh dưỡng Hải Trang</p>
+          <a class="btn gold" href="#">XEM KHOÁ HỌC ⮕</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MÀN 2: KẾT QUẢ -->
+  <div>
+    <div class="screen-label">② Kết quả + phễu</div>
+    <div class="phone">
+      <div class="topbar"><div class="menu"></div><img src="../brand/logo-nutriaz.png" alt="NutriAZ"><div style="width:34px"></div></div>
+      <div class="wrap">
+        <div class="summary">
+          <small>Bé trai · 19 tháng 15 ngày</small>
+          <h2>Bé đang nhẹ cân và thấp còi</h2>
+          <div style="font-size:14px">Cân nặng và chiều cao đều thấp hơn chuẩn WHO. Mẹ nên xem lại chế độ ăn và đưa bé đi khám dinh dưỡng.</div>
+          <div class="stats">
+            <div><b>76,5</b>cm</div><div><b>8,4</b>kg</div><div><b>14,4</b>BMI</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="head"><h3>Cân nặng theo tuổi</h3><span class="pill warn">Suy dinh dưỡng nhẹ cân</span></div>
+          <div class="bar"><i style="left:17.5%"></i></div>
+          <div class="scale"><span style="left:12.5%">-3</span><span style="left:25%">-2</span><span style="left:50%">0</span><span style="left:75%">+2</span><span style="left:87.5%">+3</span></div>
+          <p>Z-score −2,6 · Cân nặng thấp so với trẻ cùng tuổi. Bình thường: 9,0 – 14,1 kg</p>
+        </div>
+        <div class="card">
+          <div class="head"><h3>Chiều cao theo tuổi</h3><span class="pill warn">Thấp còi</span></div>
+          <div class="bar"><i style="left:17.5%"></i></div>
+          <div class="scale"><span style="left:12.5%">-3</span><span style="left:25%">-2</span><span style="left:50%">0</span><span style="left:75%">+2</span><span style="left:87.5%">+3</span></div>
+          <p>Z-score −2,6 · Chiều cao thấp so với trẻ cùng tuổi. Bình thường: 78,2 – 89,3 cm</p>
+        </div>
+        <div class="card">
+          <div class="head"><h3>BMI theo tuổi</h3><span class="pill ok">Bình thường</span></div>
+          <div class="bar"><i style="left:32%"></i></div>
+          <div class="scale"><span style="left:12.5%">-3</span><span style="left:25%">-2</span><span style="left:50%">0</span><span style="left:75%">+2</span><span style="left:87.5%">+3</span></div>
+          <p>Z-score −1,4 · Cân đối giữa cân nặng và chiều cao</p>
+        </div>
+
+        <div class="chart">
+          <div class="tabs"><span class="on">Cân nặng</span><span>Chiều cao</span><span>BMI</span></div>
+          <svg viewBox="0 0 320 180" width="100%" role="img" aria-label="Biểu đồ minh họa">
+            <path d="M30 150 C 120 70, 200 50, 310 30 L310 75 C 200 100, 120 120, 30 165Z" fill="#E7F5EE"/>
+            <path d="M30 140 C 120 60, 200 40, 310 20" stroke="#D64545" fill="none" stroke-dasharray="4 3"/>
+            <path d="M30 150 C 120 70, 200 50, 310 30" stroke="#E08A1E" fill="none"/>
+            <path d="M30 158 C 120 95, 200 75, 310 52" stroke="#2E9E6A" fill="none" stroke-width="2.5"/>
+            <path d="M30 165 C 120 120, 200 100, 310 75" stroke="#E08A1E" fill="none"/>
+            <path d="M30 170 C 120 130, 200 112, 310 87" stroke="#D64545" fill="none" stroke-dasharray="4 3"/>
+            <circle cx="175" cy="118" r="6" fill="#5E4193" stroke="#fff" stroke-width="2"/>
+            <text x="183" y="132" font-size="10" fill="#5E4193" font-weight="700">Bé ở đây</text>
+            <text x="4" y="12" font-size="9" fill="#6B6480">kg</text><text x="290" y="178" font-size="9" fill="#6B6480">tháng</text>
+          </svg>
+        </div>
+
+        <div class="funnel">
+          <span class="badge" style="background:var(--vang);color:var(--tim-dam)">GỢI Ý CHO MẸ</span>
+          <h2 style="margin-top:10px">Bé chậm tăng trưởng thường bắt nguồn từ ăn dặm chưa đúng cách</h2>
+          <p>Khoá học ăn dặm toàn diện 3 Dễ giúp mẹ:</p>
+          <ul>
+            <li>Xây lịch ăn – sữa – ngủ, khẩu phần theo tháng tuổi</li>
+            <li>Tìm đúng nguyên nhân biếng ăn, chậm tăng cân</li>
+            <li>50+ video, có đội ngũ chuyên môn đồng hành</li>
+          </ul>
+          <div class="price">800.000 ₫</div>
+          <a class="btn gold" href="#" style="margin-top:10px">ĐĂNG KÝ KHOÁ HỌC ⮕</a>
+          <a href="#" style="display:block;text-align:center;color:#fff;margin-top:12px;font-weight:700">Nhận tư vấn miễn phí</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
