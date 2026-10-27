@@ -23,9 +23,13 @@
   .phone { width: 375px; max-width: 100%; background: #fff; border-radius: 28px; overflow: hidden; box-shadow: 0 12px 40px rgba(94,65,147,.18); }
 
   /* Thanh đầu trang giống nutriaz.edu.vn */
-  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid #eee; }
-  .menu { width: 34px; height: 34px; border-radius: 8px; background: var(--tim); }
-  .topbar img { height: 52px; }
+  .topbar { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: linear-gradient(135deg, var(--tim), var(--tim-dam)); border-bottom: 3px solid var(--vang); }
+  .topbar img { height: 58px; width: 58px; border-radius: 50%; box-shadow: 0 0 0 2px var(--vang); }
+  .brand { flex: 1; line-height: 1.1; }
+  .brand .name { font-family: "Baloo 2"; font-weight: 800; font-size: 26px; background: linear-gradient(90deg, var(--vang-kem), var(--vang), var(--vang-dam)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .brand .slogan { font-size: 13px; font-weight: 700; color: var(--vang-kem); letter-spacing: .2px; }
+  .brand .by { font-size: 11px; color: #fff; opacity: .75; margin-top: 2px; }
+  .menu { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid var(--vang); display: grid; place-items: center; color: var(--vang); font-size: 18px; }
 
   .wrap { padding: 16px; }
   .know { background: var(--tim-nhat); border-radius: 16px; padding: 14px 16px; font-size: 14px; line-height: 1.55; text-align: center; }
@@ -92,7 +96,11 @@
   <div>
     <div class="screen-label">① Nhập thông tin</div>
     <div class="phone">
-      <div class="topbar"><div class="menu"></div><img src="../brand/logo-nutriaz.png" alt="NutriAZ"><div style="width:34px"></div></div>
+      <div class="topbar">
+        <img src="../brand/logo-nutriaz.png" alt="Logo NutriAZ">
+        <div class="brand"><div class="name">NutriAZ</div><div class="slogan">Dinh dưỡng từ tâm – Trẻ vươn tầm</div><div class="by">Cùng ThS. Dinh dưỡng Hải Trang</div></div>
+        <div class="menu">☰</div>
+      </div>
       <div class="wrap">
         <div class="know">
           <h3>Mẹ có biết?</h3>
@@ -132,7 +140,11 @@
   <div>
     <div class="screen-label">② Kết quả + phễu</div>
     <div class="phone">
-      <div class="topbar"><div class="menu"></div><img src="../brand/logo-nutriaz.png" alt="NutriAZ"><div style="width:34px"></div></div>
+      <div class="topbar">
+        <img src="../brand/logo-nutriaz.png" alt="Logo NutriAZ">
+        <div class="brand"><div class="name">NutriAZ</div><div class="slogan">Dinh dưỡng từ tâm – Trẻ vươn tầm</div><div class="by">Cùng ThS. Dinh dưỡng Hải Trang</div></div>
+        <div class="menu">☰</div>
+      </div>
       <div class="wrap">
         <div class="summary">
           <small>Bé trai · 19 tháng 15 ngày</small>
