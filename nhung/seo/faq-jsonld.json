@@ -1,0 +1,54 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Công cụ kiểm tra chiều cao cân nặng của NutriAZ dùng chuẩn nào?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Công cụ dùng Chuẩn tăng trưởng trẻ em của Tổ chức Y tế Thế giới (WHO Child Growth Standards 2006) cho trẻ dưới 5 tuổi và Chuẩn tham chiếu tăng trưởng WHO 2007 cho trẻ 5–19 tuổi. Kết quả được tính bằng chỉ số Z-score theo phương pháp LMS, giống cách các cơ sở y tế đánh giá."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Z-score là gì?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Z-score cho biết chỉ số của bé lệch bao nhiêu so với mức trung bình của trẻ cùng tuổi, cùng giới. Z-score từ −2 đến +2 được xem là trong ngưỡng bình thường; dưới −2 là thấp (nhẹ cân, thấp còi hoặc gầy còm); trên +2 (với BMI là trên +1 hoặc +2 tùy tuổi) là thừa cân, béo phì."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bé dưới 2 tuổi nên đo chiều cao như thế nào?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bé dưới 2 tuổi nên được đo nằm (chiều dài), từ 2 tuổi trở lên đo đứng. Nếu đo khác cách khuyến nghị, công cụ tự điều chỉnh 0,7 cm theo hướng dẫn của WHO."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bé nằm ở mức “cận dưới” có đáng lo không?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mức cận dưới (Z-score từ −2 đến −1) vẫn trong ngưỡng chuẩn, nhưng mẹ nên ưu tiên cải thiện dinh dưỡng, giấc ngủ và vận động cho bé, đồng thời theo dõi cân đo hằng tháng để bé không tụt xuống dưới chuẩn."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kết quả của công cụ có thay thế được bác sĩ không?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Không. Công cụ chỉ mang tính tham khảo để mẹ theo dõi tại nhà. Nếu bé có chỉ số dưới chuẩn, tăng cân chậm nhiều tháng liền hoặc có dấu hiệu bất thường, mẹ nên đưa bé đến cơ sở y tế hoặc gặp chuyên gia dinh dưỡng."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bao lâu nên kiểm tra chiều cao cân nặng của bé một lần?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Trẻ dưới 1 tuổi nên cân đo mỗi tháng, trẻ 1–2 tuổi khoảng 2–3 tháng một lần, trẻ lớn hơn khoảng 3–6 tháng một lần, hoặc theo lịch khám sức khỏe định kỳ."
+      }
+    }
+  ]
+}
